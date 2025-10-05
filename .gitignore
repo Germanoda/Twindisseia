@@ -1,0 +1,23 @@
+# Binários e objetos
+twindisseia
+*.o
+obj/
+bin/
+build/
+cmake-build-*/
+*.a
+*.so
+*.dll
+
+# Artefatos e caches
+*.swp
+*~
+.DS_Store
+.cache/
+tags
+compile_commands.json
+
+# IDEs/editores
+.vscode/
+.idea/
+.clangd/
