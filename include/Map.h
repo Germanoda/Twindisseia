@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <ncurses.h>
 
 class Map {
 private:
@@ -11,9 +12,13 @@ private:
 
 public:
     Map(int w = 20, int h = 10);
-    void draw() const;
+
+    // Draw the map rows into a target window.
+    // Renders up to the window's size (no overflow).
+    void drawTo(WINDOW* win) const;
+
     bool isWalkable(int x, int y) const;
-    int getWidth() const;
+    int getWidth()  const;
     int getHeight() const;
 };
 
