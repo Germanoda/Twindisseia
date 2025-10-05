@@ -3,6 +3,7 @@
 
 #include <string>
 #include <random>
+#include <vector>
 #include "Player.h"
 #include "Map.h"
 #include "Enemy.h"
@@ -16,17 +17,24 @@ private:
     Enemy enemy;
     NPC npc;
 
+    // Mensagens/UI
     std::string lastMessage;
 
+    // RNG para dados
     std::mt19937 rng;
     std::uniform_int_distribution<int> d6;
 
-    int  rollD6();                 // 1..6
-    void drawUI() const;           // HUD
-    void spawnEnemy();             // place enemy
-    void spawnNPC();               // place friendly NPC
-    void startCombat();            // turn-based combat by speed
-    void talkToNPC();              // modal dialog with the NPC
+    // --- UI helpers (novos) ---
+    void drawHUD() const;                      // barra superior com HP e dicas
+    void drawMessageBox(const std::string&) const; // caixa com borda e wrap
+    static std::vector<std::string> wrapText(const std::string& s, int maxw);
+
+    // Combate e jogo
+    int  rollD6();
+    void spawnEnemy();
+    void spawnNPC();
+    void startCombat();
+    void talkToNPC();
     bool tryMovePlayer(int dx, int dy);
 
 public:
