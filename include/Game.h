@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Map.h"
 #include "Enemy.h"
+#include "NPC.h"
 
 class Game {
 private:
@@ -13,6 +14,7 @@ private:
     Map map;
     Player player;
     Enemy enemy;
+    NPC npc;
 
     std::string lastMessage;
 
@@ -22,7 +24,9 @@ private:
     int  rollD6();                 // 1..6
     void drawUI() const;           // HUD
     void spawnEnemy();             // place enemy
-    void startCombat();            // turn-based combat
+    void spawnNPC();               // place friendly NPC
+    void startCombat();            // turn-based combat by speed
+    void talkToNPC();              // modal dialog with the NPC
     bool tryMovePlayer(int dx, int dy);
 
 public:
