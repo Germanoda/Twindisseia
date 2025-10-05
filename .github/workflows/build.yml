@@ -1,0 +1,30 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libncurses5-dev libncursesw5-dev
+
+      - name: Build
+        run: make
+
+      # opcional: garante que o binário foi criado
+      - name: Check artifact
+        run: test -f ./twindisseia
+
+      # opcional: publique o binário como artifact do job
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: twindisseia-linux
+          path: ./twindisseia
