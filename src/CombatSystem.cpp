@@ -1,4 +1,6 @@
+// src/CombatSystem.cpp
 #include "CombatSystem.h"
+#include <ncurses.h>  // for nodelay/getch
 
 CombatSystem::CombatSystem(std::mt19937& rng) : rng(rng) {}
 
@@ -12,7 +14,12 @@ void CombatSystem::run(Map& map, Player& player, Enemy& enemy, NPC& npc,
   bool playerTurn = (player.getSpeed() >= enemy.getSpeed());
   lastMessage = playerTurn ? "Combat started! You act first."
                            : "Combat started! Enemy acts first.";
-  ui.renderFrame(map, player, enemy, npc, lastMessage, false);
+
+  // Intro frame: show indicator and wait once before starting
+  ui.renderFrame(map, player, enemy, npc, lastMessage, /*showIndicator=*/true);
+  nodelay(stdscr, FALSE);
+  getch();
+  nodelay(stdscr, TRUE);
 
   while (player.isAlive() && enemy.isAlive()) {
     if (playerTurn) {
@@ -24,7 +31,12 @@ void CombatSystem::run(Map& map, Player& player, Enemy& enemy, NPC& npc,
       player.takeDamage(dmg);
       lastMessage = "Enemy attacks! Enemy rolls " + std::to_string(dmg) + ".";
     }
-    ui.renderFrame(map, player, enemy, npc, lastMessage, false);
+
+    // Show result and wait for a key before next turn
+    ui.renderFrame(map, player, enemy, npc, lastMessage, /*showIndicator=*/true);
+    nodelay(stdscr, FALSE);
+    getch();
+    nodelay(stdscr, TRUE);
 
     if (!player.isAlive() || !enemy.isAlive()) break;
     playerTurn = !playerTurn;
@@ -32,7 +44,7 @@ void CombatSystem::run(Map& map, Player& player, Enemy& enemy, NPC& npc,
 
   if (!player.isAlive()) {
     lastMessage = "You died! Press any key to exit.";
-    ui.renderFrame(map, player, enemy, npc, lastMessage, true);
+    ui.renderFrame(map, player, enemy, npc, lastMessage, /*showIndicator=*/true);
     nodelay(stdscr, FALSE);
     getch();
     nodelay(stdscr, TRUE);
@@ -40,6 +52,7 @@ void CombatSystem::run(Map& map, Player& player, Enemy& enemy, NPC& npc,
     return;
   }
 
+  // Victory: show final message (no extra key press needed here)
   lastMessage = "You defeated the enemy! (+Victory)";
-  ui.renderFrame(map, player, enemy, npc, lastMessage, false);
+  ui.renderFrame(map, player, enemy, npc, lastMessage, /*showIndicator=*/false);
 }

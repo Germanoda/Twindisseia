@@ -8,7 +8,7 @@ private:
     int speed; // determines turn order
 
 public:
-    Player(int startX = 0, int startY = 0, int startHP = 10, int startSpeed = 5);
+    Player(int startX = 0, int startY = 0, int startHP = 40, int startSpeed = 5);
 
     void moveUp();
     void moveDown();

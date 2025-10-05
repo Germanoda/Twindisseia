@@ -4,8 +4,8 @@
 
 Game::Game()
 : map(30, 15),
-  player(map.getWidth()/2, map.getHeight()/2, 10, 5),
-  enemy(0, 0, 6, 3),
+  player(map.getWidth()/2, map.getHeight()/2),
+  enemy(0, 0),
   npc(0, 0),
   d6(1, 6),        // <-- move d6 before combat
   ui(18, 5),
