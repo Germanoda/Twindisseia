@@ -13,7 +13,7 @@ struct UiWindows {
 
 class Ui {
 public:
-  Ui(int sidebarWidth=18, int msgHeight=5);
+  Ui(int sidebarWidth=18, int msgHeight=9);
   ~Ui();
 
   void layout();  // call on start and on KEY_RESIZE
