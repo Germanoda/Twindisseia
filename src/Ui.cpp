@@ -1,4 +1,5 @@
 #include "Ui.h"
+#include "Equipment.h"
 #include <algorithm>
 
 Ui::Ui(int sidebarWidth, int msgHeight)
@@ -80,14 +81,34 @@ void Ui::drawSidebar(const Player& player, const Enemy& enemy) const {
   auto print = [&](const std::string& s){
     if (cy < h) mvwaddnstr(w.side, cy++, cx, s.c_str(), std::max(0, ww - cx - 1));
   };
+
   print("== STATUS ==");
   print("Player");
-  print("  HP: " + std::to_string(player.getHP()));
+  print("  HP : " + std::to_string(player.getHP()));
   print("  SPD: " + std::to_string(player.getSpeed()));
+  print("  ATK: " + std::to_string(player.getAttack()));
+  print("  DEF: " + std::to_string(player.getDefense()));
   cy++;
+
+  print("Equipped");
+  print(std::string("  Weapon: ") + player.getWeapon().name);
+  print(std::string("  Helmet: ") + player.getHelmet().name);
+  print(std::string("  Chest : ") + player.getChest().name);
+  print(std::string("  Boots : ") + player.getBoots().name);
+  cy++;
+
   print("Enemy");
-  print(std::string("  HP: ") + (enemy.isAlive() ? std::to_string(enemy.getHP()) : "0"));
+  print(std::string("  HP : ") + (enemy.isAlive() ? std::to_string(enemy.getHP()) : "0"));
   print("  SPD: " + std::to_string(enemy.getSpeed()));
+  print("  ATK: " + std::to_string(enemy.getAttack()));
+  print("  DEF: " + std::to_string(enemy.getDefense()));
+  cy++;
+
+  print("Enemy Gear");
+  print(std::string("  Weapon: ") + enemy.getWeapon().name);
+  print(std::string("  Helmet: ") + enemy.getHelmet().name);
+  print(std::string("  Chest : ") + enemy.getChest().name);
+
   cy++;
   print("Keys");
   print("  Move: WASD/Arrows");

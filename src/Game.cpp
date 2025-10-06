@@ -39,6 +39,49 @@ Game::Game()
   // place actors
   spawnEnemy();
   spawnNPC();
+  // --- Starting gear for PLAYER ---
+  // Sword: adds +1d8 to damage
+  Equipment sword;
+  sword.name = "Sword";
+  sword.slot = EquipSlot::Weapon;
+  sword.attackDice = { {1,8} };
+
+  // Helmet: reduce incoming by 1d2
+  Equipment helmet;
+  helmet.name = "Helmet";
+  helmet.slot = EquipSlot::Helmet;
+  helmet.defenseDice = { {1,2} };
+
+  // Chest plate: reduce incoming by (1 + 1d4)
+  Equipment chest;
+  chest.name = "Chest Plate";
+  chest.slot = EquipSlot::Chest;
+  chest.flatDefBonus = 1;           // the "+1" part
+  chest.defenseDice  = { {1,4} };   // the "d4" part
+
+  // Boots: +2 speed, reduce incoming by 1d2
+  Equipment boots;
+  boots.name = "Boots";
+  boots.slot = EquipSlot::Boots;
+  boots.spdBonus = 2;
+  boots.defenseDice = { {1,2} };
+
+  player.setWeapon(sword);
+  player.setHelmet(helmet);
+  player.setChest(chest);
+  player.setBoots(boots);
+
+  // --- Starting gear for ENEMY ---
+  // Mace: adds +2d4 to damage
+  Equipment mace;
+  mace.name = "Mace";
+  mace.slot = EquipSlot::Weapon;
+  mace.attackDice = { {2,4} };
+
+  // Helmet & Chest equal to the player's (no boots)
+  enemy.setWeapon(mace);
+  enemy.setHelmet(helmet);
+  enemy.setChest(chest);
 
   // create windows
   ui.layout();
